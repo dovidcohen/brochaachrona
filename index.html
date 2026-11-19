@@ -11,6 +11,8 @@
   <link rel="icon" href="icon.png">
   <script>
     // Auto-redirect iOS/Android visitors to the right store; everyone else sees both buttons.
+    // PLAY_LIVE = false while the first Google Play release is in review (the store page 404s).
+    var PLAY_LIVE = false;
     (function () {
       var IOS_URL = 'https://apps.apple.com/app/id6827544143';
       var PLAY_URL = 'https://play.google.com/store/apps/details?id=com.dovidcohen.brochaachrona';
@@ -19,7 +21,7 @@
                 (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1); // iPadOS
       var android = /Android/i.test(ua);
       if (iOS) window.location.replace(IOS_URL);
-      else if (android) window.location.replace(PLAY_URL);
+      else if (android && PLAY_LIVE) window.location.replace(PLAY_URL);
     })();
   </script>
   <style>
@@ -38,6 +40,9 @@
             text-decoration: none; border-radius: 14px; font-weight: 600;
             max-width: 340px; color: #fff; background: #8B5A14; }
     a.btn.android { background: #5c3b0c; }
+    a.btn[hidden], p[hidden] { display: none; }
+    p.soon { margin: 1rem auto; max-width: 340px; padding: .95rem 1.25rem; border-radius: 14px;
+             border: 1px dashed #8a7f70; color: #8a7f70; }
     footer { margin-top: 3rem; font-size: .8rem; color: #8a7f70; }
     footer a { color: inherit; }
   </style>
@@ -49,7 +54,12 @@
   <p class="sub">Remember your brocha achrona after you eat.<br>
      <span lang="he" dir="rtl">תזכורת לברכה אחרונה אחרי האוכל.</span></p>
   <a class="btn ios" href="https://apps.apple.com/app/id6827544143">Download on the App&nbsp;Store</a>
-  <a class="btn android" href="https://play.google.com/store/apps/details?id=com.dovidcohen.brochaachrona">Get it on Google&nbsp;Play</a>
+  <a class="btn android" id="play" href="https://play.google.com/store/apps/details?id=com.dovidcohen.brochaachrona">Get it on Google&nbsp;Play</a>
+  <p class="soon" id="soon" hidden>Android &amp; Wear OS: coming to Google&nbsp;Play in the next few days.<br>
+     <span lang="he" dir="rtl">אנדרואיד: יגיע ל-Google Play בימים הקרובים.</span></p>
+  <script>
+    if (!PLAY_LIVE) { document.getElementById('play').hidden = true; document.getElementById('soon').hidden = false; }
+  </script>
   <footer>iPhone · Apple Watch · Android · Wear OS<br>
     <a href="https://dovidcohen.github.io/brocha-achrona-privacy/">Privacy</a></footer>
 </body>
